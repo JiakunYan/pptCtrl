@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivity";
     UIHandler uiHandler;
     ImageRecvThread mImageRecvThread;
+    VolumeKeyMonitor mVolumeKeyMonitor = null;
     private ImageView backgroundImageView;
     private Touchpad touchpad;
     private ImageButton cfg_button,button_before,button_next;
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         uiHandler = new UIHandler();
+
+        mVolumeKeyMonitor = new VolumeKeyMonitor();
+        mVolumeKeyMonitor.start();
     }
 
     @Override
@@ -59,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (mImageRecvThread != null && mImageRecvThread.isAlive()) {
             mImageRecvThread.interrupt();
+        }
+        if (mVolumeKeyMonitor != null && mVolumeKeyMonitor.isAlive()) {
+            mVolumeKeyMonitor.interrupt();
         }
     }
 
@@ -229,13 +237,12 @@ public class MainActivity extends AppCompatActivity {
                         prev2 = current2;
                         break;
                     case MotionEvent.ACTION_UP:     //手离开屏幕的动作
-                        if (!dual_mode) {
+                        if (control_method == 3) {
+                            messageClientService.sendMessage("e");
+                        } else if (!dual_mode) {
                             Pair<Float, Float> current = new Pair<>(motionEvent.getX(), motionEvent.getY());
                             sendPoint(current);
                             prev = current;
-                        }
-                        if (control_method == 3) {
-                            messageClientService.sendMessage("e");
                         }
                         break;
                 }
@@ -298,7 +305,13 @@ public class MainActivity extends AppCompatActivity {
             addressView.setText("Wrong format of PortNum");
             return;
         }
-        InetSocketAddress address = new InetSocketAddress(ipNum, portNum);
+        InetSocketAddress address = null;
+        try {
+            address = new InetSocketAddress(ipNum, portNum);
+        } catch (Exception e) {
+            addressView.setText(String.format("Cannot connect to %s:%d", ipNum, portNum));
+            return;
+        }
         // connect
         if (messageClientService != null) {
             //和指定的客户端连接
@@ -411,6 +424,58 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    public class VolumeKeyMonitor extends Thread {
+        private AudioManager mAudioManager;
+        private int defaultVolume;
+
+        VolumeKeyMonitor() {
+            // 获得AudioManager对象
+            mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);//音乐音量,如果要监听铃声音量变化，则改为AudioManager.STREAM_RING
+            // calculate default volume
+            int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            int minVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
+            int currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            if (currentVolume == minVolume) {
+                defaultVolume = currentVolume + 1;
+            } else if (currentVolume == maxVolume) {
+                defaultVolume = currentVolume - 1;
+            } else {
+                defaultVolume = currentVolume;
+            }
+        }
+
+        public void run() {
+            try {
+                while (!Thread.interrupted()) {
+                    int currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                    Log.i("Volume","currentVolume = " + currentVolume);
+                    if (defaultVolume < currentVolume) {
+                        // volume increase
+                        onVolumeUp();
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, defaultVolume,
+                                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+                    } else if (defaultVolume > currentVolume) {
+                        // volume decrease
+                        onVolumeDown();
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, defaultVolume,
+                                AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+                    }
+                    Thread.sleep(100);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        void onVolumeUp() {
+            sendMessage("l");
+        }
+
+        void onVolumeDown() {
+            sendMessage("r");
         }
     }
 

@@ -19,7 +19,8 @@ public:
 	~MyTcpServer();
 
 private:
-	const int timeInterval = 500; //ms
+	const static int timeInterval = 40; //ms
+	const static int jpeg_quality = 10; //from 0 (low quality, high compression) to 100 (high quality, low compression)
 	Ui::MyTcpServerClass ui;
 	QTcpServer *tcpServer = NULL;
 	QTcpSocket *msgClient = NULL;
@@ -34,7 +35,7 @@ private:
 	void draw(int x, int y);
 
 	void int2byte(int length, char* l2b);
-	int capture(char**);
+	int capture(QByteArray* array);
 
 	QRect mScreen;
 

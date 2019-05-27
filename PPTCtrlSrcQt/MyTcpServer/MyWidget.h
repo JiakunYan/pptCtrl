@@ -5,7 +5,8 @@
 #include <QPaintEvent>
 #include <QDesktopWidget>
 #include <QtWidgets/QApplication>
-
+#include <QScreen>
+#include <QBuffer>
 
 class MyWidget : public QWidget
 {
@@ -25,7 +26,7 @@ public:
 	void draw_new();
 	void lineTo(int x, int y);
 	void draw_move();
-	void capture();
+	void magnify_capture();
 
 	void set_winId(int t) { 
 		winId = t; 
@@ -41,6 +42,7 @@ private:
 	QRect mScreen;
 	int winId = 0;
 	bool isDrawMove = 1;
+	QPixmap magnify_pixmap;
 
 protected:
 	void paintEvent(QPaintEvent*);

@@ -1,8 +1,4 @@
 #include "MyWidget.h"
-#include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <atlimage.h>
 
 extern bool open;
 
@@ -38,9 +34,8 @@ void MyWidget::paintEvent(QPaintEvent*)
 		QPainter p(this);
 		QPen pen(Qt::black, 5, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin);
 		p.setPen(pen);
-		QPixmap pixmap;
-		pixmap.load("ScreenShot.bmp");
-		p.drawPixmap(x - win_width / 2, y - win_height / 2, win_width, win_height, pixmap);
+		// draw
+		p.drawPixmap(x - win_width / 2, y - win_height / 2, win_width, win_height, magnify_pixmap);
 		p.drawRect(x - win_width / 2, y - win_height / 2, win_width, win_height);
 	}
 	else if (currentFunction == Draw) {
@@ -78,33 +73,11 @@ void MyWidget::draw_move() {
 	isDrawMove = 1;
 }
 
-void MyWidget::capture()
-{
+void MyWidget::magnify_capture() {
 	int width = win_width / magnifying_rate;    // 图片宽度
 	int height = win_height / magnifying_rate;   // 图片高度
-
-						// 获取窗口的设备上下文（Device Contexts）
-	HDC hdcWindow = ::GetDC(GetDesktopWindow()); //GetDC(NULL); // 要截图的窗口句柄，为空则全屏
-								 // 获取设备相关信息的尺寸大小
-	int nBitPerPixel = GetDeviceCaps(hdcWindow, BITSPIXEL);
-
-	CImage image;
-	// 创建图像，设置宽高，像素
-	image.Create(width, height, nBitPerPixel);
-	// 对指定的源设备环境区域中的像素进行位块（bit_block）转换
-	BitBlt(
-		image.GetDC(),  // 保存到的目标 图片对象 上下文
-		0,0,  // 起始 x, y 坐标
-		width, height,  // 截图宽高
-		hdcWindow,      // 截取对象的 上下文句柄
-		(mScreen.x() + x - width / 2), (mScreen.y() + y - height / 2),//mScreen.x(), mScreen.y(),       // 指定源矩形区域左上角的 X, y 逻辑坐标
-		SRCCOPY);
-
-	// 释放 DC句柄
-	ReleaseDC(NULL, hdcWindow);
-	// 释放图片上下文
-	image.ReleaseDC();
-	// 将图片以 BMP 的格式保存到 F:\ScreenShot.bmp
-	image.Save(_T("ScreenShot.bmp"));
+	QRect target(mScreen.x() + x - width / 2, mScreen.y() + y - height / 2, width, height);
+	magnify_pixmap = QPixmap();
+	QScreen * screen = QGuiApplication::primaryScreen();
+	magnify_pixmap = screen->grabWindow(0).copy(target);
 }
-

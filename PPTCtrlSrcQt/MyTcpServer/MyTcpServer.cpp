@@ -240,7 +240,7 @@ void MyTcpServer::magnify(int x, int y) {
 	myWidget->x = x;
 	myWidget->y = y;
 	myWidget->hide();
-	myWidget->capture();
+	myWidget->magnify_capture();
 	myWidget->show();
 	myWidget->update();
 }
@@ -252,7 +252,7 @@ void MyTcpServer::magnify(int x1, int y1, int x2, int y2) {
 	myWidget->win_width = abs(x1, x2);
 	myWidget->win_height = abs(y1, y2);
 	myWidget->hide();
-	myWidget->capture();
+	myWidget->magnify_capture();
 	myWidget->show();
 	myWidget->update();
 }
@@ -269,14 +269,13 @@ void MyTcpServer::timerEvent(QTimerEvent *event)
 	if (event->timerId() == videoTimerId && videoClient != NULL && videoClient->state() == QAbstractSocket::ConnectedState)
 	{
 		int length;
-		char* sendMessage;
+		QByteArray sendMessage;
 		length = capture(&sendMessage);
 		char length2byte[4];
 		int2byte(length, length2byte);
 		videoClient->write(length2byte, 4);
 		videoClient->write(sendMessage, length);
 		videoClient->flush();
-		delete[] sendMessage;
 	}
 }
 void MyTcpServer::onClickStart() {
@@ -328,44 +327,12 @@ void MyTcpServer::int2byte(int length, char* l2b) {
 	}
 }
 
-int MyTcpServer::capture(char** pBuffer)
-{
-	// 获取窗口的设备上下文（Device Contexts）
-	HDC hdcWindow = ::GetDC(GetDesktopWindow()); //GetDC(NULL); // 要截图的窗口句柄，为空则全屏
-								 // 获取设备相关信息的尺寸大小
-	int nBitPerPixel = GetDeviceCaps(hdcWindow, BITSPIXEL);
+int MyTcpServer::capture(QByteArray* array) {
+	QPixmap screenPixmap = QPixmap(); // clear image for low memory situations
+	QScreen *screen = QGuiApplication::primaryScreen();
+	screenPixmap = screen->grabWindow(0).copy(mScreen);
 
-	CImage image;
-	// 创建图像，设置宽高，像素
-	image.Create(mScreen.width(), mScreen.height(), nBitPerPixel);
-	// 对指定的源设备环境区域中的像素进行位块（bit_block）转换
-	BitBlt(
-		image.GetDC(),  // 保存到的目标 图片对象 上下文
-		0, 0,     // 起始 x, y 坐标
-		mScreen.width(), mScreen.height(),  // 截图宽高
-		hdcWindow,      // 截取对象的 上下文句柄
-		mScreen.x(), mScreen.y(),           // 指定源矩形区域左上角的 X, y 逻辑坐标
-		SRCCOPY);
-
-	// 释放 DC句柄
-	ReleaseDC(NULL, hdcWindow);
-	// 释放图片上下文
-	image.ReleaseDC();
-	// 将图片以 BMP 的格式保存到 F:\ScreenShot.bmp
-
-	unsigned long ulBufferLen = 0;
-	IStream* pOutStream = NULL;
-	if (CreateStreamOnHGlobal(NULL, TRUE, &pOutStream) == S_OK)
-	{
-		image.Save(pOutStream, Gdiplus::ImageFormatJPEG);
-		HGLOBAL hOutGlobal = NULL;
-		GetHGlobalFromStream(pOutStream, &hOutGlobal);
-		LPBYTE pBits = (LPBYTE)GlobalLock(hOutGlobal);
-		ulBufferLen = (DWORD)GlobalSize(pBits);
-		*pBuffer = new char[ulBufferLen];
-		memcpy(*pBuffer, pBits, ulBufferLen);
-		GlobalUnlock(hOutGlobal);
-		pOutStream->Release();
-	}
-	return ulBufferLen;
+	QBuffer buffer(array);
+	screenPixmap.save(&buffer, "JPEG", jpeg_quality);
+	return array->size();
 }
