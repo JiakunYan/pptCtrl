@@ -1,3 +1,5 @@
+volumeKeyTest
+
 *.rar
 PPTCtrlSrcQt/.vs
 PPTCtrlSrcQt/x64
@@ -7,6 +9,7 @@ PPTCtrlSrcQt/x64
 PPTCtrlSrcQt/MyTcpServer/x64
 PPTCtrlSrcQt/MyTcpServer/GeneratedFiles
 *.bmp
+*.vcxproj.*
 
 *.iml
 .gradle
