@@ -2,10 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="rectangle" >
 
-    <solid android:color="#90EED5D2" />
+    <solid android:color="#90dbdbdb"
+           android:alpha="0.5"/>
     <!-- 边框 -->
     <stroke
-        android:width="3dip"
+        android:width="1dip"
         android:color="#90707070" />
     <!-- 内填充颜色 -->
     <padding

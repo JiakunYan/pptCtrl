@@ -12,7 +12,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/theme"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitXY"/>
 
     <com.example.jackyan.pptCtrl.Touchpad
         android:id="@+id/touchPad"
@@ -54,10 +55,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
             <EditText
+                android:background="@drawable/round_corner_text"
                 android:id="@+id/ipInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:ems="6"
                 android:hint="Input IP"
                 android:textSize="20dp"
@@ -67,10 +68,10 @@
                 android:text="192.168."
                 android:layout_marginRight="10dp"/>
             <EditText
+                android:background="@drawable/round_corner_text"
                 android:id="@+id/clientPortInput"
                 android:layout_width="66dp"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:ems="6"
                 android:maxLines="1"
                 android:textSize="20dp"
@@ -85,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
             <Button
+                android:background="@drawable/round_corner"
                 android:id="@+id/connect_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +95,7 @@
                 android:layout_marginRight="10dp"/>
 
             <Button
+                android:background="@drawable/round_corner"
                 android:id="@+id/stop_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,8 +116,8 @@
 
         <Button
             android:id="@+id/button_exit"
-            android:layout_width="60dp"
-            android:layout_height="24dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/exit_button"
             android:textAllCaps="false"
             android:textColor="#ffffff"
@@ -146,15 +149,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp" />
 
-        <RelativeLayout
-            android:id="@+id/c01"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="#8089CFF0"
-            android:layout_alignTop="@+id/m01"
-            android:layout_alignStart="@+id/m01"
-            android:layout_alignLeft="@+id/m01" />
-
         <ImageView
             android:id="@+id/m02"
             android:layout_width="70dp"
@@ -168,15 +162,6 @@
             android:layout_marginEnd="2dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp" />
-
-        <RelativeLayout
-            android:id="@+id/c02"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="#8089CFF0"
-            android:layout_alignTop="@+id/m02"
-            android:layout_alignStart="@+id/m02"
-            android:layout_alignLeft="@+id/m02" />
 
         <ImageView
             android:id="@+id/m03"
@@ -192,15 +177,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp" />
 
-        <RelativeLayout
-            android:id="@+id/c03"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="#8089CFF0"
-            android:layout_alignTop="@+id/m03"
-            android:layout_alignStart="@+id/m03"
-            android:layout_alignLeft="@+id/m03" />
-
         <ImageView
             android:id="@+id/m04"
             android:layout_width="70dp"
@@ -214,15 +190,6 @@
             android:layout_marginEnd="2dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp" />
-
-        <RelativeLayout
-            android:id="@+id/c04"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="#8089CFF0"
-            android:layout_alignTop="@+id/m04"
-            android:layout_alignStart="@+id/m04"
-            android:layout_alignLeft="@+id/m04" />
     </RelativeLayout>
 
     <ImageButton

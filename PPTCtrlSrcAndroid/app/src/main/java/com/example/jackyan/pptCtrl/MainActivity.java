@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton cfg_button,button_before,button_next;
     private RelativeLayout control_pad;
     private LinearLayout config_pad;
-    private RelativeLayout[] methods = new RelativeLayout[4];
-    private ImageView[] method_images = new ImageView[4];
     //private Switch video_stream_switch;
     private int control_method = -1;
     private Pair<Float, Float> prev;
@@ -100,12 +98,10 @@ public class MainActivity extends AppCompatActivity {
         button_next= findViewById(R.id.button_next);
         Button button_exit= findViewById(R.id.button_exit);
 
+        final ImageView[] method_images = new ImageView[4];
         for(int i=0;i<4;++i){
             //初始化每个Method的图像，然后用监听并确定选择了那个method
-            int resId = getResources().getIdentifier("c0"+(i+1),"id",getPackageName());
-            methods[i]= findViewById(resId);
-            methods[i].setVisibility(View.GONE);
-            resId = getResources().getIdentifier("m0" + (i + 1), "id", getPackageName());
+            int resId = getResources().getIdentifier("m0" + (i + 1), "id", getPackageName());
             method_images[i] = findViewById(resId);
             method_images[i].setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -113,11 +109,15 @@ public class MainActivity extends AppCompatActivity {
                     pack_layouts();
                     for(int j=0;j<4;++j){
                         if(v.getId()==method_images[j].getId()){
+                            int drawable_id = getResources().getIdentifier
+                                    ("n0" + (j + 1), "drawable", getPackageName());
                             control_method=j;
-                            methods[j].setVisibility(View.VISIBLE);
+                            method_images[j].setImageResource(drawable_id);
                             messageClientService.sendMessage("E");
                         }else{
-                            methods[j].setVisibility(View.GONE);
+                            int drawable_id = getResources().getIdentifier
+                                    ("m0" + (j + 1), "drawable", getPackageName());
+                            method_images[j].setImageResource(drawable_id);
                         }
                     }
                     unpack_layout(control_method);

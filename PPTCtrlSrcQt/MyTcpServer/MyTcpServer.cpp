@@ -280,6 +280,10 @@ void MyTcpServer::timerEvent(QTimerEvent *event)
 }
 void MyTcpServer::onClickStart() {
 	ui.ipLine->setText(tr("%1:%2").arg(getLocalIp()).arg(HOST_PORT_NUM));   //获取本地IP
+	if (tcpServer) {
+		tcpServer->close();
+		tcpServer = NULL;
+	}
 	tcpServer = new QTcpServer(this);
 	tcpServer->listen(QHostAddress::Any, HOST_PORT_NUM);
 	connect(tcpServer, SIGNAL(newConnection()), this, SLOT(NewConnectionSlot()));
