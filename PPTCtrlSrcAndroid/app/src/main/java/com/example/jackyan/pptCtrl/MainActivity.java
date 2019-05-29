@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
         uiHandler = new UIHandler();
 
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mVolumeKeyMonitor = new VolumeKeyMonitor();
         mVolumeKeyMonitor.start();
     }
