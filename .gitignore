@@ -10,6 +10,7 @@ PPTCtrlSrcQt/MyTcpServer/x64
 PPTCtrlSrcQt/MyTcpServer/GeneratedFiles
 *.bmp
 *.vcxproj.*
+*.aps
 
 *.iml
 .gradle
