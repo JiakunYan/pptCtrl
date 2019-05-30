@@ -43,13 +43,17 @@ QString getLocalIp()
 	foreach(QNetworkInterface inter, interfaces)
 	{
 		// 过滤掉不需要的网卡信息
+		int i = 0;
 		if (is_virtual_network_card_or_loopback(inter.humanReadableName()))
 			continue;
 		if (inter.flags() & (QNetworkInterface::IsUp | QNetworkInterface::IsRunning)) {
 			foreach(QHostAddress address, inter.allAddresses()) {
 				if (isLocalIp(address)) {
 					if (-1 != inter.name().indexOf("wireless")) {
-						qDebug() << "wireless: " << address << "\n";
+						// qDebug() << "wireless: " << address << "\n";
+						if (i != 0 && i++ % 3 == 0) {
+							result.append("\n");
+						}
 						if (result.size() != 0) {
 							result.append("/");
 						}

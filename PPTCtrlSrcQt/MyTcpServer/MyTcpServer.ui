@@ -23,7 +23,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">#MyTcpServerClass{ border-image: url(:/QtGuiApplication1/Resources/background.jpg)}</string>
+   <string notr="true">border-image: url(:/QtGuiApplication1/Resources/background.jpg);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
