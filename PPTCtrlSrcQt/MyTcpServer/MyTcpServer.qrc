@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/QtGuiApplication1">
+    <file>Resources/background.jpg</file>
+  </qresource>
+</RCC>
