@@ -51,13 +51,13 @@ QString getLocalIp()
 				if (isLocalIp(address)) {
 					if (-1 != inter.name().indexOf("wireless")) {
 						// qDebug() << "wireless: " << address << "\n";
-						if (i != 0 && i++ % 3 == 0) {
-							result.append("\n");
-						}
 						if (result.size() != 0) {
 							result.append("/");
 						}
 						result.append(address.toString());
+						if (i++ == 2) {
+							break;
+						}
 					}
 				}
 			}
