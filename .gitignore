@@ -9,7 +9,7 @@ PPTCtrlSrcQt/x64
 PPTCtrlSrcQt/MyTcpServer/x64
 PPTCtrlSrcQt/MyTcpServer/GeneratedFiles
 *.bmp
-*.vcxproj.*
+*.vcxproj*
 *.aps
 
 *.iml

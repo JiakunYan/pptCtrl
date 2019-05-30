@@ -19,7 +19,7 @@ public:
 	~MyTcpServer();
 
 private:
-	const static int timeInterval = 40; //ms
+	const static int timeInterval = 10; //ms
 	const static int jpeg_quality = 10; //from 0 (low quality, high compression) to 100 (high quality, low compression)
 	Ui::MyTcpServerClass ui;
 	QTcpServer *tcpServer = NULL;

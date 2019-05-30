@@ -10,8 +10,20 @@
     <height>239</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MyTcpServer</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#MyTcpServerClass{ border-image: url(:/QtGuiApplication1/Resources/background.jpg)}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -25,35 +37,71 @@
       </property>
       <property name="font">
        <font>
-        <family>黑体</family>
+        <family>Arial</family>
         <pointsize>16</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:rgb(0， 0， 0)</string>
       </property>
       <property name="text">
        <string>PPT Remote Control</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item row="2" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QPushButton" name="startBtn">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgb(0， 0， 0)</string>
+        </property>
         <property name="text">
-         <string>IP Address:</string>
+         <string>Start</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>status:</string>
+       <widget class="QPushButton" name="endBtn">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>35</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgb(0， 0， 0)</string>
+        </property>
         <property name="text">
-         <string>command:</string>
+         <string>End</string>
         </property>
        </widget>
       </item>
@@ -62,29 +110,68 @@
     <item row="1" column="1">
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QLineEdit" name="ipLine"/>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="statusLine"/>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="cmdLine"/>
-      </item>
-     </layout>
-    </item>
-    <item row="2" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="startBtn">
+       <widget class="QLabel" name="ipLine">
+        <property name="styleSheet">
+         <string notr="true">color:rgb(0， 0， 0)</string>
+        </property>
         <property name="text">
-         <string>start</string>
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="endBtn">
+       <widget class="QLabel" name="statusLine">
+        <property name="styleSheet">
+         <string notr="true">color:rgb(0， 0， 0)</string>
+        </property>
         <property name="text">
-         <string>end</string>
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgb(0， 0， 0)</string>
+        </property>
+        <property name="text">
+         <string>    IP Address:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgb(0， 0， 0)</string>
+        </property>
+        <property name="text">
+         <string>    Status:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>

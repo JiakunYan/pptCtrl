@@ -133,7 +133,7 @@ void MyTcpServer::ReadData()
 		QString data = QString(msgClient->readLine());
 		QStringList test = data.split(',');
 		QString cmd = data.split(',')[0].trimmed();
-		ui.cmdLine->setText(data);
+		//ui.cmdLine->setText(data);
 		if (cmd == "l") {  //last page
 			myWidget->hide();
 			mouse_event(MOUSEEVENTF_WHEEL, 0, 0, 120, 0);  //模拟鼠标向上滚动
